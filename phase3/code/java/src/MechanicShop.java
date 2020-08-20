@@ -23,7 +23,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.ArrayList;
-
+import java.util.Scanner;
+import java.io.InputStream;
+import java.io.FileInputStream;
 /**
  * This class defines a simple embedded SQL utility class that is designed to
  * work with PostgreSQL JDBC drivers.
@@ -305,8 +307,32 @@ public class MechanicShop{
 	}//end readChoice
 	
 	public static void AddCustomer(MechanicShop esql){//1
-		
-	}
+
+		//Scanner in  = new Scanner(System.in);
+		try{
+			System.out.print("Enter Customer id: ");
+			int id = Integer.parseInt(in.readLine());
+			System.out.print("\nEnter Customer first name: ");
+			String fname = in.readLine();
+			
+			System.out.print("\nEnter Customer last name: ");
+			String lname = in.readLine();
+			
+			System.out.print("\nEnter Customer phone number: ");
+			String  phone = in.readLine();
+
+			System.out.print("\nEnter Customer address: ");
+			String address = in.readLine();
+
+
+			//if(id!=null && fname!=null && lname!=null && phone!=null && address!=null) {
+			//Statement stmt = _connection.createStatement();
+			String query = String.format("INSERT INTO Customer(id,fname,lname,phone,address) VALUES (%d ,'%s','%s','%s','%s')",id,fname,lname,phone,address);
+			esql.executeUpdate(query);
+		}catch(Exception e){
+			System.out.println("Query couldn't execute");
+		}
+}
 	
 	public static void AddMechanic(MechanicShop esql){//2
 		
