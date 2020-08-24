@@ -386,9 +386,8 @@ try{
 		System.out.print("\nEnter customer's last name");
 		String lname = in.readLine();
 
-		String query = "SELECT * FROM Customers";
-
-		esql.executeUpdate(query);
+		String query ="SELECT COUNT(*) FROM Customer WHERE lname = "+ "lname";
+		esql.executeQueryAndPrintResult(query);
 
 	}
 	catch(Exception e){
