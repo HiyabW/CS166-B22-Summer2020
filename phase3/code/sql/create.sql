@@ -36,7 +36,7 @@ CREATE TABLE Mechanic
 	id INTEGER NOT NULL,
 	fname CHAR(32) NOT NULL,
 	lname CHAR(32) NOT NULL,
-	experience _YEARS NOT NULL,
+	experience INTEGER NOT NULL,
 	PRIMARY KEY (id) 
 );
 
@@ -45,7 +45,7 @@ CREATE TABLE Car
 	vin VARCHAR(16) NOT NULL,
 	make VARCHAR(32) NOT NULL,
 	model VARCHAR(32) NOT NULL,
-	year _YEAR NOT NULL,
+	year INTEGER  NOT NULL,
 	PRIMARY KEY (vin)
 );
 ---------------
@@ -67,7 +67,7 @@ CREATE TABLE Service_Request
 	customer_id INTEGER NOT NULL,
 	car_vin VARCHAR(16) NOT NULL,
 	date DATE NOT NULL,
-	odometer _PINTEGER NOT NULL,
+	odometer INTEGER NOT NULL,
 	complain TEXT,
 	PRIMARY KEY (rid),
 	FOREIGN KEY (customer_id) REFERENCES Customer(id),
@@ -81,7 +81,7 @@ CREATE TABLE Closed_Request
 	mid INTEGER NOT NULL,
 	date DATE NOT NULL,
 	comment TEXT,
-	bill _PINTEGER NOT NULL,
+	bill INTEGER NOT NULL,
 	PRIMARY KEY (wid),
 	FOREIGN KEY (rid) REFERENCES Service_Request(rid),
 	FOREIGN KEY (mid) REFERENCES Mechanic(id)

@@ -335,15 +335,65 @@ public class MechanicShop{
 }
 	
 	public static void AddMechanic(MechanicShop esql){//2
-		
-	}
+try{
+			System.out.print("Enter Mechanic id: ");
+			int id = Integer.parseInt(in.readLine());
+			System.out.print("\nEnter Mechanic first name: ");
+			String fname = in.readLine();
+			
+			System.out.print("\nEnter Mechanic last name: ");
+			String lname = in.readLine();
+			
+			System.out.print("\nEnter years of experience");
+			int exp = Integer.parseInt(in.readLine());
+			
+
+			String query = String.format("INSERT INTO Mechanic(id,fname,lname,experience) VALUES (%d ,'%s','%s',%d)",id,fname,lname,exp);
+			esql.executeUpdate(query);
+		}
+		catch(Exception e){
+			System.out.println("Query couldn't execute");
+		}
+
+	}		
+	
 	
 	public static void AddCar(MechanicShop esql){//3
-		
+		try{
+			System.out.print("Enter car VIN number: ");
+			String vin = in.readLine();
+
+			System.out.print("\nEnter car make: ");
+			String make = in.readLine();
+			
+			System.out.print("\nEnter car model: ");
+			String model = in.readLine();
+			
+			System.out.print("\nEnter car year: ");
+			int year = Integer.parseInt(in.readLine());
+			
+
+			String query = String.format("INSERT INTO Car(vin,make,model,year) VALUES ('%s' ,'%s','%s', %d)",vin,make,model,year);
+			esql.executeUpdate(query);
+		}
+		catch(Exception e){
+			System.out.println("Query couldn't execute");
+		}
 	}
 	
 	public static void InsertServiceRequest(MechanicShop esql){//4
-		
+	try{	
+		System.out.print("\nEnter customer's last name");
+		String lname = in.readLine();
+
+		String query = "SELECT * FROM Customers";
+
+		esql.executeUpdate(query);
+
+	}
+	catch(Exception e){
+		System.out.println("Query could not execute");
+	}
 	}
 	
 	public static void CloseServiceRequest(MechanicShop esql) throws Exception{//5
