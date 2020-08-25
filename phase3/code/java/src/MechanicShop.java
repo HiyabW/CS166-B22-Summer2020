@@ -400,15 +400,33 @@ try{
 	}
 	
 	public static void ListCustomersWithBillLessThan100(MechanicShop esql){//6
-		
+		try{
+
+			esql.executeQueryAndPrintResult("SELECT date, comment, bill FROM Closed_Request WHERE bill < 100 GROUP BY date, comment, bill");		
+		}
+		catch(Exception e){
+			System.out.println("Query could not execute");
+		}
 	}
+
 	
 	public static void ListCustomersWithMoreThan20Cars(MechanicShop esql){//7
+		try{
+			esql.executeQueryAndPrintResult("SELECT C.fname, C.lname FROM Customer AS C WHERE 20 < (SELECT COUNT(*) FROM Owns O WHERE C.id = O.customer_id)");
+		}
 		
+		catch(Exception e){
+			System.out.println("Query couldn't execute");
+		}	
 	}
 	
 	public static void ListCarsBefore1995With50000Milles(MechanicShop esql){//8
-		
+		try{
+			esql.executeQueryAndPrintResult("SELECT C.make, C.model, C.year FROM Car AS C, Service_Request AS S WHERE C.vin = S.car_vin AND S.odometer < 50000 AND C.year < 1995");
+		}
+		catch(Exception e){
+			System.out.println("Query couldn't execute.");
+		}	
 	}
 	
 	public static void ListKCarsWithTheMostServices(MechanicShop esql){//9
@@ -418,7 +436,10 @@ try{
 	
 	public static void ListCustomersInDescendingOrderOfTheirTotalBill(MechanicShop esql){//9
 		//
-		
-	}
-	
+		try{
+			esql.executeQueryAndPrintResult("SELECT C.fname, C.lname, total FROM Customer AS C,(SELECT SR.customer_id, SUM(CR.bill) AS total FROM Closed_Request AS CR, Service_Request AS SR WHERE CR.rid = SR.rid GROUP BY SR.customer_id) AS B WHERE C.id=B.customer_id ORDER BY B.total DESC;"); // GROUP BY C.fname, C.lname, SUM(CR.bill) ORDER BY SUM(CR.bill) DESC;");
+}catch(Exception e){
+		System.out.println("Query could not exeute");
+}
+}	
 }
