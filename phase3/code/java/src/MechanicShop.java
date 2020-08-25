@@ -382,17 +382,8 @@ try{
 	}
 	
 	public static void InsertServiceRequest(MechanicShop esql){//4
-	try{	
-		System.out.print("\nEnter customer's last name");
-		String lname = in.readLine();
 
-		String query ="SELECT COUNT(*) FROM Customer WHERE lname = "+ "lname";
-		esql.executeQueryAndPrintResult(query);
 
-	}
-	catch(Exception e){
-		System.out.println("Query could not execute");
-	}
 	}
 	
 	public static void CloseServiceRequest(MechanicShop esql) throws Exception{//5
@@ -431,6 +422,14 @@ try{
 	
 	public static void ListKCarsWithTheMostServices(MechanicShop esql){//9
 		//
+		try{
+	System.out.print("Enter a value, k, greater than 0, for which the first k values with the highest number of service requests will be shown: ");
+	int x = Integer.parseInt(in.readLine());
+	esql.executeQueryAndPrintResult("SELECT make, model, a.num_requests FROM Car c, (SELECT car_vin, COUNT(rid) AS num_requests FROM Service_Request GROUP BY car_vin ) AS a WHERE a.car_vin = c.vin ORDER BY a.num_requests DESC LIMIT " + x);
+}
+catch(Exception e){
+	System.out.println("Query couldn't execute");
+}
 		
 	}
 	
