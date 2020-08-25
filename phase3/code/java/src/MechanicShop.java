@@ -382,7 +382,77 @@ try{
 	}
 	
 	public static void InsertServiceRequest(MechanicShop esql){//4
+		try{
+        		String todaysdate = "MM/dd/yyyy";
+			String cust_ID="";
+			String car_ID="";
+			System.out.print("Enter the last name of the customer: ");
+                        String lastName = in.readLine();
+			String query = "SELECT * FROM Customer WHERE lname='";
+			query += lastName + "';";
 
+			int customerExists = esql.executeQuery(query); 
+			if (customerExists != 0){ 
+				System.out.println("Enter the customer ID: ");
+				cust_ID = in.readLine();
+			}
+			else{ 
+				System.out.println("There are no customers with that last name. Please add a new customer.");
+				AddCustomer(esql);
+				System.out.println("Reenter the customer ID: ");
+				cust_ID = in.readLine();
+			}	
+			
+			
+			query = "SELECT car_vin FROM Owns WHERE customer_id='";
+			query += cust_ID + "';";
+				
+			int carExists = esql.executeQuery(query); 
+				
+			if (carExists !=0){
+				System.out.println("Enter the VIN: ");
+				car_ID = in.readLine();
+			}
+			else { 
+				System.out.println("The customer doesn't own a car. Please add a new car.");
+				AddCar(esql);
+				System.out.println("Reenter the VIN: ");
+				car_ID = in.readLine();
+			}	
+			
+			query = "SELECT * FROM Owns WHERE car_vin='";
+			query += car_ID + "' AND customer_id='";
+			query += cust_ID + "';";
+				
+			int owns = esql.executeQuery(query);
+			if (owns != 0){
+				query = "INSERT INTO Service_Request(rid, customer_id, car_vin, date, odometer, complain) VALUES ('";
+				System.out.println("Enter the Service Request ID: ");
+				int rid = Integer.parseInt(in.readLine());
+				query += rid + "', '";
+				query += cust_ID + "', '" + car_ID + "', " + todaysdate + ", '";
+				System.out.println("Enter the odometer reading: ");
+				String odometer = in.readLine();
+				query += odometer + "', '";
+				System.out.println("What is the issue? ");
+				String complain = in.readLine();
+				query += complain + "');";
+						
+				esql.executeUpdate(query);
+		
+				System.out.println("------------------------------------------------");
+				System.out.println("New service request created.");
+				query = "SELECT * FROM Service_Request WHERE rid='";
+				query+= rid + "';";
+				System.out.println("------------------------------------------------");
+	
+			}
+			else { 
+				System.out.println("This customer doesn't own this car");
+			}
+		} catch(Exception e){
+				System.err.println(e.getMessage());
+		}
 
 	}
 	
