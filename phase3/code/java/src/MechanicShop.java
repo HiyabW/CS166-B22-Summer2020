@@ -430,8 +430,10 @@ try{
 			if(customerExists ==0 && carExists ==0) {
 				System.out.println("Enter ownership id: ");
 				int ownership_id = Integer.parseInt(in.readLine());
-				String query = String.format("INSERT INTO Owns(ownership_id, customer_id, car_vin) VALUES (%d, %d '%s')",ownership_id, cust_ID, car_vin);
+				System.out.println(ownership_id +", " + cust_ID + ", " + car_vin);
+				String query = String.format("INSERT INTO Owns(ownership_id, customer_id, car_vin) VALUES (%d, %d, '%s')",ownership_id, cust_ID, car_vin);
 				esql.executeUpdate(query);
+				System.out.println("Success");
 			}
 	
 			carExists = esql.executeQuery("SELECT * FROM Owns WHERE car_vin='" + car_vin + "' AND customer_id='" + cust_ID + "';");
@@ -439,6 +441,14 @@ try{
 				
 				System.out.println("Enter the Service Request ID: ");
 				int rid = Integer.parseInt(in.readLine());
+				
+				int ridExists = esql.executeQuery("SELECT * FROM Service_Request WHERE rid=" + rid + ";");
+				while(ridExists!=0) {
+					//boolean stillhere = false;
+					System.out.println("ERROR: RID already exists! Please enter a different RID: ");
+					rid = Integer.parseInt(in.readLine());
+					ridExists = esql.executeQuery("SELECT * FROM Service_Request WHERE rid=" + rid + ";");
+				}
 
 				System.out.println("What is the odometer reading?: ");
 				int odometer = Integer.parseInt(in.readLine());
@@ -462,23 +472,38 @@ try{
 	}
 	
 	public static void CloseServiceRequest(MechanicShop esql) throws Exception{//5
-	/* try {
+	try {
 		System.out.print("Please enter a service request ID: ");
 		int rid = Integer.parseInt(in.readLine());
 
 		int ridExists = esql.executeQuery("SELECT * FROM Service_Request WHERE rid='" + rid + "';");
-
+		int already = esql.executeQuery("SELECT * FROM Closed_Request WHERE rid='" + rid + "';");
 		if(ridExists!=0) {
-			System.out.print("Please enter an Employee (Mechanic) ID: ");
-			int mid = Integer.parseInt(in.readLine());
+			if(already ==0) {
+				System.out.print("Please enter an Employee (Mechanic) ID: ");
+				int mid = Integer.parseInt(in.readLine());
 
-			int midExists = esql.executeQuery("SELECT * FROM Mechanic WHERE id='" + mid + "';");
+				int midExists = esql.executeQuery("SELECT * FROM Mechanic WHERE id='" + mid + "';");
 
-			if(midExists!=0) {
-				esql.executeQuery("INSERT INTO.....") //insert into Closed_Requests
+				if(midExists!=0) {
+					//System.out.println("Please enter wid: ");
+					//int wid = Integer.parseInt(in.readLine());
+					System.out.println("Please enter date of closure: ");
+                          	   	String date = in.readLine();
+					System.out.println("Please enter any comments: ");
+                                	String comment = in.readLine();
+					System.out.println("Please enter bill: ");
+					int bill = Integer.parseInt(in.readLine());
+					//System.out.println(wid + "  " + rid + "  " + mid + "  " + date + "  " + comment + "  " + bill); 
+					String query = String.format("INSERT INTO Closed_Request(wid, rid, mid, date, comment, bill) VALUES (%d, %d, %d, '%s', '%s', %d)",rid,rid,mid,date,comment,bill);  
+					System.out.println("Successfully closed request!");
+				}
+				else {
+                                	System.out.println("Employee does not exist");
+                        	}
 			}
 			else {
-				System.out.println("Employee does not exist");
+				System.out.println("This request exists, but is already closed.");
 			}
 		}
 		else {
@@ -489,7 +514,7 @@ try{
 	catch(Exception e){
                 System.err.println(e.getMessage());
         }
-	*/
+	
 	}
 	
 	public static void ListCustomersWithBillLessThan100(MechanicShop esql){//6
