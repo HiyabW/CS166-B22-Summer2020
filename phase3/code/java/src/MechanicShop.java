@@ -9,8 +9,7 @@
  * Target DBMS: 'Postgres'
  *
  */
-
-//hai 
+ 
 
 import java.sql.DriverManager;
 import java.sql.Connection;
@@ -384,94 +383,70 @@ try{
 	
 	public static void InsertServiceRequest(MechanicShop esql){//4
 		try{
-        	String todaysdate = "2020-04-04";
 			int cust_ID;
 			String car_ID="";
+			String todaysdate = "2020-08-27";
 			System.out.print("Enter the last name of the customer: ");
                         String lastName = in.readLine();
-			String query = "SELECT * FROM Customer WHERE lname='";
-			query += lastName + "';";
 
-			esql.executeQueryAndPrintResult(query);
-
-			int customerExists = esql.executeQuery(query); 
+			esql.executeQueryAndPrintResult("SELECT * FROM Customer WHERE lname='" + lastName + "';");
+			int customerExists = esql.executeQuery("SELECT * FROM Customer WHERE lname='" + lastName + "';"); 
+			
 			if (customerExists == 0){ 
-				do{
-					
+	
 					System.out.println("No customers could be found with that last name. Do you want to add a new customer? (y/n)");
 					String user_input = in.readLine();
 					if(user_input.equals( "y") || user_input.equals("Y")) {
 						AddCustomer(esql);
-						break;
 					}
 					else if (user_input.equals("n") || user_input.equals("N")) {
 						System.out.println("Enter the customer ID: ");
 						cust_ID = Integer.parseInt(in.readLine());
-						break;
 					}
 					else {
 						System.out.println("Invalid input");
 					}
-				} while (true);
 			}
 			 
 				System.out.println("Enter the customer ID: ");
 				cust_ID = Integer.parseInt(in.readLine());
 				
 			
-			
-			query = "SELECT * FROM Owns WHERE customer_id='";
-			query += cust_ID + "';";
 
-			esql.executeQueryAndPrintResult(query);
+			esql.executeQueryAndPrintResult("SELECT * FROM Owns WHERE customer_id='" + cust_ID + "';");
 				
-			int carExists = esql.executeQuery(query); 
+			int carExists = esql.executeQuery("SELECT * FROM Owns WHERE customer_id='" + cust_ID + "';"); 
 				
 			if (carExists ==0){
 	 
 				System.out.println("The customer doesn't own a car. Please add a new car.");
 				AddCar(esql);
-				System.out.println("Enter the VIN: ");
-				car_ID = in.readLine();
 			}	
 			
 			System.out.println("Enter the VIN: ");
 			car_ID = in.readLine();
-
-			query = "SELECT * FROM Owns WHERE car_vin='";
-			query += car_ID + "' AND customer_id='";
-			query += cust_ID + "';";
 				
-			int owns = esql.executeQuery(query);
-			if (owns != 0){
+			carExists = esql.executeQuery("SELECT * FROM Owns WHERE car_vin='" + car_ID + "' AND customer_id='" + cust_ID + "';");
+			if (carExists != 0){
 				
 				System.out.println("Enter the Service Request ID: ");
 				int rid = Integer.parseInt(in.readLine());
 
-				
-
-				System.out.println("Enter the odometer reading: ");
+				System.out.println("What is the odometer reading?: ");
 				int odometer = Integer.parseInt(in.readLine());
 				
-
-				System.out.println("What is the issue? ");
+				System.out.println("Please enter the complaint: ");
 				String complain = in.readLine();
 				
 				
-
-				query = String.format("INSERT INTO Service_Request(rid, customer_id, car_vin, date, odometer, complain) VALUES (%d, %d, '%s', '%s', %d, '%s')",rid,cust_ID,car_ID,todaysdate,odometer,complain);	
+				String query = String.format("INSERT INTO Service_Request(rid, customer_id, car_vin, date, odometer, complain) VALUES (%d, %d, '%s', '%s', %d, '%s')",rid,cust_ID,car_ID,todaysdate,odometer,complain);	
 				esql.executeUpdate(query);
 		
-				System.out.println("------------------------------------------------");
-				System.out.println("New service request created.");
-				query = "SELECT * FROM Service_Request WHERE rid='";
-				query+= rid + "';";
-				esql.executeQueryAndPrintResult(query);
-				System.out.println("------------------------------------------------");
-	
+				System.out.println("Service request complete");
 			}
+
 			else { 
-				System.out.println("This customer doesn't own this car");
+				System.out.println("The selected car does not belong to customer");
 			}
 		} catch(Exception e){
 				System.err.println(e.getMessage());
@@ -479,7 +454,34 @@ try{
 	}
 	
 	public static void CloseServiceRequest(MechanicShop esql) throws Exception{//5
-		
+	try {
+		System.out.print("Please enter a service request ID: ");
+		int rid = Integer.parseInt(in.readLine());
+
+		int ridExists = esql.executeQuery("SELECT * FROM Service_Request WHERE rid='" + rid + "';");
+
+		if(ridExists!=0) {
+			System.out.print("Please enter an Employee (Mechanic) ID: ");
+			int mid = Integer.parseInt(in.readLine());
+
+			int midExists = esql.executeQuery("SELECT * FROM Mechanic WHERE id='" + mid + "';");
+
+			if(midExists!=0) {
+				esql.executeQuery("INSERT INTO.....") //insert into Closed_Requests
+			}
+			else {
+				System.out.println("Employee does not exist");
+			}
+		}
+		else {
+			System.out.println("Rid does not exist");
+		}
+	}
+	
+	catch(Exception e){
+                System.err.println(e.getMessage());
+        }
+	
 	}
 	
 	public static void ListCustomersWithBillLessThan100(MechanicShop esql){//6
