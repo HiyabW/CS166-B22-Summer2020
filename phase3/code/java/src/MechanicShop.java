@@ -438,7 +438,6 @@ try{
 				System.out.println("Please enter the complaint: ");
 				String complain = in.readLine();
 				
-				
 				String query = String.format("INSERT INTO Service_Request(rid, customer_id, car_vin, date, odometer, complain) VALUES (%d, %d, '%s', '%s', %d, '%s')",rid,cust_ID,car_ID,todaysdate,odometer,complain);	
 				esql.executeUpdate(query);
 		
@@ -454,7 +453,7 @@ try{
 	}
 	
 	public static void CloseServiceRequest(MechanicShop esql) throws Exception{//5
-	try {
+	/* try {
 		System.out.print("Please enter a service request ID: ");
 		int rid = Integer.parseInt(in.readLine());
 
@@ -481,7 +480,7 @@ try{
 	catch(Exception e){
                 System.err.println(e.getMessage());
         }
-	
+	*/
 	}
 	
 	public static void ListCustomersWithBillLessThan100(MechanicShop esql){//6
