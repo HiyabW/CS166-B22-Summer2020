@@ -384,8 +384,8 @@ try{
 	public static void InsertServiceRequest(MechanicShop esql){//4
 		try{
 			int cust_ID;
-			String car_ID="";
-			String todaysdate = "2020-08-27";
+			String car_vin="";
+			
 			System.out.print("Enter the last name of the customer: ");
                         String lastName = in.readLine();
 
@@ -394,17 +394,18 @@ try{
 			
 			if (customerExists == 0){ 
 	
-					System.out.println("No customers could be found with that last name. Do you want to add a new customer? (y/n)");
-					String user_input = in.readLine();
-					if(user_input.equals( "y") || user_input.equals("Y")) {
+					System.out.println("No customers could be found with that last name. Would you like to add a new customer? (Input y/n)");
+					String answer = in.readLine();
+					if(answer.equals( "y") || answer.equals("Y")) {
 						AddCustomer(esql);
 					}
-					else if (user_input.equals("n") || user_input.equals("N")) {
-						System.out.println("Enter the customer ID: ");
-						cust_ID = Integer.parseInt(in.readLine());
-					}
+					else if (answer.equals("n") || answer.equals("N")) {
+						System.out.println("Ok. Have a blessed day.");
+						return;	
+					}					
 					else {
 						System.out.println("Invalid input");
+						return;
 					}
 			}
 			 
@@ -424,9 +425,16 @@ try{
 			}	
 			
 			System.out.println("Enter the VIN: ");
-			car_ID = in.readLine();
-				
-			carExists = esql.executeQuery("SELECT * FROM Owns WHERE car_vin='" + car_ID + "' AND customer_id='" + cust_ID + "';");
+			car_vin = in.readLine();
+			
+			if(customerExists ==0 && carExists ==0) {
+				System.out.println("Enter ownership id: ");
+				int ownership_id = Integer.parseInt(in.readLine());
+				String query = String.format("INSERT INTO Owns(ownership_id, customer_id, car_vin) VALUES (%d, %d '%s')",ownership_id, cust_ID, car_vin);
+				esql.executeUpdate(query);
+			}
+	
+			carExists = esql.executeQuery("SELECT * FROM Owns WHERE car_vin='" + car_vin + "' AND customer_id='" + cust_ID + "';");
 			if (carExists != 0){
 				
 				System.out.println("Enter the Service Request ID: ");
@@ -438,7 +446,8 @@ try{
 				System.out.println("Please enter the complaint: ");
 				String complain = in.readLine();
 				
-				String query = String.format("INSERT INTO Service_Request(rid, customer_id, car_vin, date, odometer, complain) VALUES (%d, %d, '%s', '%s', %d, '%s')",rid,cust_ID,car_ID,todaysdate,odometer,complain);	
+				String date = "2020-08-27";
+				String query = String.format("INSERT INTO Service_Request(rid, customer_id, car_vin, date, odometer, complain) VALUES (%d, %d, '%s', '%s', %d, '%s')",rid,cust_ID,car_vin,date,odometer,complain);	
 				esql.executeUpdate(query);
 		
 				System.out.println("Service request complete");
