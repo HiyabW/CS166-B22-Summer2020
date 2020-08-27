@@ -308,30 +308,93 @@ public class MechanicShop{
 	
 	public static void AddCustomer(MechanicShop esql){//1
 
-		//Scanner in  = new Scanner(System.in);
-		try{
-			System.out.print("Enter Customer id: ");
-			int id = Integer.parseInt(in.readLine());
-			System.out.print("\nEnter Customer first name: ");
-			String fname = in.readLine();
-			
-			System.out.print("\nEnter Customer last name: ");
-			String lname = in.readLine();
-			
-			System.out.print("\nEnter Customer phone number: ");
-			String  phone = in.readLine();
+		                try{
+                        System.out.print("Enter Customer id: ");
+                        int id;
+                        while(true){
+                                try{
+                                        id = Integer.parseInt(in.readLine());
+                                        break;
 
-			System.out.print("\nEnter Customer address: ");
-			String address = in.readLine();
+                                }
+
+                                catch(Exception e){
+                                        System.out.print("\nInvalid input for customer id. Please try again : ");
+                                        continue;
+                                }
+                        }
 
 
-			//if(id!=null && fname!=null && lname!=null && phone!=null && address!=null) {
-			//Statement stmt = _connection.createStatement();
-			String query = String.format("INSERT INTO Customer(id,fname,lname,phone,address) VALUES (%d ,'%s','%s','%s','%s')",id,fname,lname,phone,address);
-			esql.executeUpdate(query);
-		}catch(Exception e){
-			System.out.println("Query couldn't execute");
-		}
+
+                        System.out.print("\nEnter Customer first name: ");
+                        String fname = in.readLine();
+                        while(true){
+                                if(fname.length() == 0 || fname.length() > 32){
+                                        System.out.print("\nYour input for customer first name cannot be blank or exceed 32 characters. Please try again: ");
+                                        fname = in.readLine();
+                                        continue;
+                                }
+                                else{
+                                        break;
+                                }
+
+
+                        }
+
+
+
+                        System.out.print("\nEnter Customer last name: ");
+                        String lname = in.readLine();
+                        while(true){
+                                if(lname.length() == 0 || lname.length() > 32){
+                                        System.out.print("\nYour input for customer last name cannot be blank or exceed 32 characters. Please try again: ");
+                                        lname = in.readLine();
+                                        continue;
+                                }
+                                else{
+                                        break;
+                                }
+                        }
+
+
+
+                        System.out.print("\nEnter Customer phone number: ");
+                        String  phone = in.readLine();
+                        while(true){
+                                if(phone.length() == 0 || phone.length() > 13){
+                                        System.out.print("\nYour input for customer phone number cannot be blank or exceed 13 characters. Please try again: ");
+                                        phone = in.readLine();
+                                        continue;
+                                }
+                                else{
+                                        break;
+                                }
+                        }
+
+
+
+                        System.out.print("\nEnter Customer address: ");
+                        String address = in.readLine();
+                        while(true){
+                                if(address.length() == 0 || address.length() > 256){
+                                        System.out.print("\nYour input for customer address cannot be blank or exceed 256 characters. Please try again: ");
+                                        address = in.readLine();
+                                        continue;
+                                }
+                                else{
+                                        break;
+                                }
+                        }
+
+
+                        //if(id!=null && fname!=null && lname!=null && phone!=null && address!=null) {
+                        //                        //Statement stmt = _connection.createStatement();
+                                                                        String query = String.format("INSERT INTO Customer(id,fname,lname,phone,address) VALUES (%d ,'%s','%s','%s','%s')",id,fname,lname,phone,address);
+                                                                                                esql.executeUpdate(query);
+                                                                                                                }catch(Exception e){
+                                                                                                                                        System.out.println("Query couldn't execute");
+                                                                                                                                                        }
+                        
 }
 	
 	public static void AddMechanic(MechanicShop esql){//2
