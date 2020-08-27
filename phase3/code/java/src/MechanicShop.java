@@ -335,9 +335,20 @@ public class MechanicShop{
 }
 	
 	public static void AddMechanic(MechanicShop esql){//2
-try{
+		try{
 			System.out.print("Enter Mechanic id: ");
 			int id = Integer.parseInt(in.readLine());
+
+			while(id<0) {
+				System.out.println("Invalid ID. Please enter an ID greater than 0");
+				id = Integer.parseInt(in.readLine());	
+			}
+			int idExists = esql.executeQuery("SELECT * FROM Mechanic WHERE id=" + id + ";");
+			while(idExists!=0) {
+				System.out.println("This id is already taken, please enter a different id");
+				id = Integer.parseInt(in.readLine());
+				idExists = esql.executeQuery("SELECT * FROM Mechanic WHERE id=" + id + ";");
+                        }
 			System.out.print("\nEnter Mechanic first name: ");
 			String fname = in.readLine();
 			
@@ -352,7 +363,7 @@ try{
 			esql.executeUpdate(query);
 		}
 		catch(Exception e){
-			System.out.println("Query couldn't execute");
+			System.out.println("ERROR: Please ensure your input is the correct type. Id and experience are integers, and fname and lname are strings.");
 		}
 
 	}		
@@ -363,6 +374,16 @@ try{
 			System.out.print("Enter car VIN number: ");
 			String vin = in.readLine();
 
+			while(vin.length()<=0) {
+                                System.out.print("Vin cannot be empty. Please reenter a vin: ");
+                                vin = in.readLine();
+                        }
+                        int vinExists = esql.executeQuery("SELECT * FROM Car WHERE vin='" + vin + "';");
+                        while(vinExists!=0) {
+                                System.out.println("This vin is already taken, please enter a different vin");
+                                vin = in.readLine();
+                                vinExists = esql.executeQuery("SELECT * FROM Car WHERE vin='" + vin + "';");
+                        }
 			System.out.print("\nEnter car make: ");
 			String make = in.readLine();
 			
@@ -377,7 +398,7 @@ try{
 			esql.executeUpdate(query);
 		}
 		catch(Exception e){
-			System.out.println("Query couldn't execute");
+			System.out.println("ERROR: Please ensure your input is the correct type. Year is an integer, and VIN, make, and model are strings.");
 		}
 	}
 	
