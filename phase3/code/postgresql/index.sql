@@ -1,1 +1,1 @@
-CREATE INDEX bill_index ON Closed_Request(bill);
+CREATE INDEX vin_index ON Car(vin);
