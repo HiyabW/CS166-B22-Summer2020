@@ -400,33 +400,80 @@ public class MechanicShop{
 	public static void AddMechanic(MechanicShop esql){//2
 		try{
 			System.out.print("Enter Mechanic id: ");
-			int id = Integer.parseInt(in.readLine());
+			int id; 
+			while(true){
+                                try{
+                                        id = Integer.parseInt(in.readLine());
+                                        int idExists = esql.executeQuery("SELECT * FROM Mechanic WHERE id=" + id + ";");
+										while(idExists!=0) {
+											System.out.println("This id is already taken, please enter a different id");
+											id = Integer.parseInt(in.readLine());
+											idExists = esql.executeQuery("SELECT * FROM Mechanic WHERE id=" + id + ";");
+                        				}
+                                        break;
 
-			while(id<0) {
-				System.out.println("Invalid ID. Please enter an ID greater than 0");
-				id = Integer.parseInt(in.readLine());	
-			}
-			int idExists = esql.executeQuery("SELECT * FROM Mechanic WHERE id=" + id + ";");
-			while(idExists!=0) {
-				System.out.println("This id is already taken, please enter a different id");
-				id = Integer.parseInt(in.readLine());
-				idExists = esql.executeQuery("SELECT * FROM Mechanic WHERE id=" + id + ";");
+                                }
+
+                                catch(Exception e){
+                                        System.out.print("\nInput for mechanic ID must not be null or contain any characters. Please try again : ");
+                                        continue;
+                                }
                         }
+
+			
+			
 			System.out.print("\nEnter Mechanic first name: ");
 			String fname = in.readLine();
+                        while(true){
+                                if(fname.length() == 0 || fname.length() > 32){
+                                        System.out.print("\nYour input for mechanic first name cannot be blank or exceed 32 characters. Please try again: ");
+                                        fname = in.readLine();
+                                        continue;
+                                }
+                                else{
+                                        break;
+                                }
+
+
+                        }
 			
+
+
+
 			System.out.print("\nEnter Mechanic last name: ");
 			String lname = in.readLine();
+                        while(true){
+                                if(lname.length() == 0 || lname.length() > 32){
+                                        System.out.print("\nYour input for customer last name cannot be blank or exceed 32 characters. Please try again: ");
+                                        lname = in.readLine();
+                                        continue;
+                                }
+                                else{
+                                        break;
+                                }
+                        }
 			
 			System.out.print("\nEnter years of experience");
-			int exp = Integer.parseInt(in.readLine());
+			int exp;
+			while(true){
+                                try{
+                                        exp = Integer.parseInt(in.readLine());
+                                        break;
+
+                                }
+
+                                catch(Exception e){
+                                        System.out.print("\nInput for mechanic years of experience must not be null or contain any characters. Please try again: ");
+                                        continue;
+                                }
+                        }
 			
 
 			String query = String.format("INSERT INTO Mechanic(id,fname,lname,experience) VALUES (%d ,'%s','%s',%d)",id,fname,lname,exp);
 			esql.executeUpdate(query);
 		}
 		catch(Exception e){
-			System.out.println("ERROR: Please ensure your input is the correct type. Id and experience are integers, and fname and lname are strings.");
+			System.out.println("Query could not execute.");
 		}
 
 	}		
