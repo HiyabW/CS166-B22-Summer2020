@@ -1,20 +1,7 @@
-# CS166-B22-Summer2020
+# Mechanic Shop Project SQL&JAVA, CS166 UCR
 
-# Phase 3 Compaliation Instruction
+## Description:
 
-1. Setup server and table
-    1. cd code
-    2. cd postgresql
-    3. chmod +x *.sh
-    4. ./startPostgreSQL.sh
-    5. ./createPostgreDB.sh
-2. Run Java Script
-    1. cd code
-    2. cd java
-    3. chmod +x *.sh
-    4. ./compile.sh
-    5. ./run.sh $LOGNAME"_DB" 5432 $USER
-3. Exit Server
-    1. cd code
-    2. cd postgresql
-    3. ./stopPostgreDB.sh
+This project demonstrates the manipulation and/or selection of Mechanic Shop data through the use of functions (JAVA) and queries (SQL). In the Mechanic shop, there are customers, mechanics, cars, and open/closed service requests, each with their own attributes and relationships with each other. This program prompts a menu with choices that allows for users to either create new customers, cars, etc, or select a list of certain customers/cars/etc that satisfy a certain requirement. A more detailed explanation covering th functionalities of this program can be found in the project.pdf file located in the phase 3 directory.
+
+I completed this project with a partner in approximately 4 weeks as a requirement for my Introduction to Databases class. We did every function together, and also included error handling.
